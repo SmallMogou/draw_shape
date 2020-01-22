@@ -1,2 +1,2 @@
-# Simple-graph-drawing
+# Mogou.S
 Teach yourself programming abbreviations
