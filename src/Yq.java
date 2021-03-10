@@ -15,21 +15,20 @@ class Yq{
                 InputStreamReader read = new InputStreamReader(
                 new FileInputStream(file),encoding);
                 BufferedReader bufferedReader = new BufferedReader(read);
-                // 读取文件
+                
                 String lineTxt = null;
-                while((lineTxt = bufferedReader.readLine()) != null){
-                    str.add(lineTxt);
-                }
-                // 写入文件
                 FileWriter fwriter = new FileWriter(filePahtOut, true);
                 String temp = "";
-                for(String item : str){
-                    if(!temp.equals(item.substring(0, 3))){
-                        temp = item.substring(0, 3);
+                // 读取文件
+                while((lineTxt = bufferedReader.readLine()) != null){
+                     if(!temp.equals(lineTxt.substring(0, 3))){
+                        temp = lineTxt.substring(0, 3);
+                        // 写入文件
                         fwriter.write(temp+"\r\n");
                     }
-                    if(!item.substring(4, item.length()).equals("待明确地区	0")){
-                        fwriter.write(item.substring(4, item.length())+"\r\n");
+                    if(!item.substring(4, lineTxt.length()).equals("待明确地区	0")){
+                        // 写入文件
+                        fwriter.write(item.substring(4, lineTxt.length())+"\r\n");
                     }
                 }
                 read.close();
