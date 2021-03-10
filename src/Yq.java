@@ -1,7 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
 
 class Yq{
     public static void main(String argv[]){
@@ -9,7 +6,6 @@ class Yq{
             String filePathIn = "yq_in.txt";
             String filePahtOut = "yq_out.txt";
             String encoding="GBK"; //编码格式
-            List<String> str = new ArrayList<String>();
             File file=new File(filePathIn);
             if(file.isFile() && file.exists()){ //判断文件是否存在
                 InputStreamReader read = new InputStreamReader(
@@ -26,9 +22,9 @@ class Yq{
                         // 写入文件
                         fwriter.write(temp+"\r\n");
                     }
-                    if(!item.substring(4, lineTxt.length()).equals("待明确地区	0")){
+                    if(!lineTxt.substring(4, lineTxt.length()).equals("待明确地区	0")){
                         // 写入文件
-                        fwriter.write(item.substring(4, lineTxt.length())+"\r\n");
+                        fwriter.write(lineTxt.substring(4, lineTxt.length())+"\r\n");
                     }
                 }
                 read.close();
