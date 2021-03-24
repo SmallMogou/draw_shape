@@ -1,7 +1,7 @@
 /**
     SE实践4
     @author lm
-    since 2.0
+    since 1.0
  */
 import java.io.*;
 import java.text.Collator;
