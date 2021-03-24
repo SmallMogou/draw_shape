@@ -6,7 +6,6 @@
 import java.io.*;
 import java.text.Collator;
 import java.util.Comparator;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -37,14 +36,13 @@ public class Yq{
                         areas = new ArrayList<Area>();
                         yqInfo = new YqInfo(temp, 0, areas);
                         yqInfos.add(yqInfo); // 存入yqInfos
-                        // 
                     }
                     if(!(tempArr[1]).equals("待明确地区")){ // 存入一个地区
                         yqInfo.getAreas().add(new Area(tempArr[1], Integer.valueOf(tempArr[2])));
                         yqInfo.setCaseSum(yqInfo.getCaseSum() + Integer.valueOf(tempArr[2]));
-                        // 
                     }
                 }
+                
                 YqInfo[] yqArr = YqInfo.sortProvinceByCaseSum(yqInfos);
                 Area[] areaArr = null;
                 for(YqInfo y : yqArr){ //写入文件
