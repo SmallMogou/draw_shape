@@ -41,13 +41,14 @@ public class Yq{
                         yqInfo.setCaseSum(yqInfo.getCaseSum() + Integer.valueOf(tempArr[2]));
                     }
                 }
+                
                 YqInfo[] yqArr = YqInfo.sortProvinceByCaseSum(yqInfos);
                 Area[] areaArr = null;
                 for(YqInfo y : yqArr){ //写入文件
                     fwriter.write(y.getProvince()+ " " + "总数：" + y.getCaseSum() + "\r\n");
                     areaArr = Area.sortAreaByCases(y.getAreas());
                     for(Area a: areaArr)
-                        fwriter.write(a.getArea() + " " +a.getCases() + "\r\n");
+                        fwriter.write(a.getArea() + " " + a.getCases() + "\r\n");
                 }
                     
                 read.close();
@@ -171,14 +172,14 @@ class Area{
         this.area = area;
     }
 
-    public void seeCases(int cases){
+    public void setCases(int cases){
         this.cases = cases;
     }
 
     /**
         按照病例数从大到小排序地区
         @author lm
-        since v2.0
+        since 2.0
      */
     public static Area[] sortAreaByCases(ArrayList<Area> areas){
         Area[] areaArr = areas.toArray(new Area[areas.size()]);
