@@ -6,9 +6,8 @@
 import java.io.*;
 import java.text.Collator;
 import java.util.Comparator;
+import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 public class Yq{
     public static void main(String argv[]){
@@ -42,7 +41,6 @@ public class Yq{
                         yqInfo.setCaseSum(yqInfo.getCaseSum() + Integer.valueOf(tempArr[2]));
                     }
                 }
-                
                 YqInfo[] yqArr = YqInfo.sortProvinceByCaseSum(yqInfos);
                 Area[] areaArr = null;
                 for(YqInfo y : yqArr){ //写入文件
@@ -67,28 +65,10 @@ public class Yq{
         @author lm
         since 2.0
      */
-    public static void sortByPinyinCode(Object[] objs){
-        String[] strArr = new String[2];
-        YqInfo[] tmpYqInfoArr = null;
-        Area[] tmpAreaArr = null;
-        if(objs instanceof YqInfo[]){
-            tmpYqInfoArr = (YqInfo[])objs; 
-            strArr[0] = tmpYqInfoArr[0].getProvince();
-            strArr[1] = tmpYqInfoArr[1].getProvince();
-        }else{
-            tmpAreaArr = (Area[])objs;
-            strArr[0] = tmpAreaArr[0].getArea();
-            strArr[1] =  tmpAreaArr[1].getArea();
-        }
+    public static void sortByPinyinCode(String[] tempStr){
         Comparator cmp = Collator.getInstance(java.util.Locale.CHINA);
-        Arrays.sort(strArr, cmp);
-        if(objs instanceof YqInfo[]){
-            tmpYqInfoArr[0].setProvince(strArr[0]);
-            tmpYqInfoArr[1].setProvince(strArr[1]);
-        }else{
-            tmpAreaArr[0].setArea(strArr[0]);
-            tmpAreaArr[1].setArea(strArr[1]);
-        }
+        Arrays.sort(tempStr, cmp);
+        
     }
 }
 
@@ -139,8 +119,9 @@ class YqInfo{
      */
     public static YqInfo[] sortProvinceByCaseSum(ArrayList<YqInfo> yqInfos){
         YqInfo[] yqArr = yqInfos.toArray(new YqInfo[yqInfos.size()]);
-        YqInfo[] yqArr2 = new YqInfo[2];
+        String[] provinceArr2 = new String[2];
         YqInfo temp = null;
+        ArrayList<Area> tempAreas = null;
         for(int i = 0; i < yqArr.length; i++){
             for(int j = i + 1; j < yqArr.length; j++){
                 if(yqArr[i].getCaseSum() < yqArr[j].getCaseSum()){
@@ -148,11 +129,15 @@ class YqInfo{
                     yqArr[i] = yqArr[j];
                     yqArr[j] = temp;
                 } else if(yqArr[i].getCaseSum() == yqArr[j].getCaseSum()){
-                    yqArr2[0] = yqArr[i];
-                    yqArr2[1] = yqArr[j]; 
-                    Yq.sortByPinyinCode(yqArr2);
-                    yqArr[i] = yqArr2[0];
-                    yqArr[j] = yqArr2[1];
+                    // 根据拼音排序时，交换两个省的地区
+                    tempAreas = yqArr[i].getAreas();
+                    yqArr[i].setAreas(yqArr[j].getAreas());
+                    yqArr[j].setAreas(tempAreas);
+                    provinceArr2[0] = yqArr[i].getProvince();
+                    provinceArr2[1] = yqArr[j].getProvince(); 
+                    Yq.sortByPinyinCode(provinceArr2);
+                    yqArr[i].setProvince(provinceArr2[0]);
+                    yqArr[j].setProvince(provinceArr2[1]);
                 }
             }
         }
@@ -197,7 +182,7 @@ class Area{
      */
     public static Area[] sortAreaByCases(ArrayList<Area> areas){
         Area[] areaArr = areas.toArray(new Area[areas.size()]);
-        Area[] areaArr2 = new Area[2];
+        String[] areaArr2 = new String[2];
         Area temp = null;
         for(int i = 0; i < areaArr.length; i++){
             for(int j = i + 1; j < areaArr.length; j++){
@@ -206,11 +191,11 @@ class Area{
                     areaArr[i] = areaArr[j];
                     areaArr[j] = temp;
                 } else if(areaArr[i].getCases() == areaArr[j].getCases()){
-                    areaArr2[0] = areaArr[i];
-                    areaArr2[1] = areaArr[j]; 
+                    areaArr2[0] = areaArr[i].getArea();
+                    areaArr2[1] = areaArr[j].getArea(); 
                     Yq.sortByPinyinCode(areaArr2);
-                    areaArr[i] = areaArr2[0];
-                    areaArr[j] = areaArr2[1];
+                    areaArr[i].setArea(areaArr2[0]);
+                    areaArr[j].setArea(areaArr2[1]);
                 }
             }
         }
