@@ -3,7 +3,11 @@ package cn.edu.swun.www;
 import cn.edu.swun.www.action.Drawable;
 import cn.edu.swun.www.model.*;
 import java.util.ArrayList;
-
+/**
+	@author lm
+	主类
+	执行之后将在 Windows 控制台 画出简易的图形
+ */
 public class TestMain{
 	public static void DrawShape(Drawable dShape,String penTyppe){
 		dShape.draw(penTyppe);
